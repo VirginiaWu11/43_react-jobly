@@ -1,7 +1,9 @@
-const CompanyDetail = () => {
+const CompanyDetail = ({ company }) => {
   return (
     <div>
-      <h1>CompanyDetail</h1>
+      <h1>{company.name}</h1>
+      <p>{company.description}</p>
+      <p>{company.website}</p>
     </div>
   );
 };

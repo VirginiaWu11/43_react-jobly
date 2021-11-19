@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import JoblyApi from "./api";
+import CompanyCard from "./CompanyCard";
 
 const CompanyList = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,7 +23,7 @@ const CompanyList = () => {
     <div>
       <ul>
         {companies.map((company) => (
-          <li key={company.handle}>{company.name}</li>
+          <CompanyCard key={company.handle} company={company} />
         ))}
       </ul>
     </div>
