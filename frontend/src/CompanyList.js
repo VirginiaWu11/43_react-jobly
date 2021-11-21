@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import JoblyApi from "./api";
 import CompanyCard from "./CompanyCard";
+import Grid from "@mui/material/Grid";
 
 const CompanyList = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,11 +22,13 @@ const CompanyList = () => {
 
   return (
     <div>
-      <ul>
+      <Grid container spacing={1} justifyContent="center" p={2}>
         {companies.map((company) => (
-          <CompanyCard key={company.handle} company={company} />
+          <Grid item xs={10}>
+            <CompanyCard key={company.handle} company={company} />{" "}
+          </Grid>
         ))}
-      </ul>
+      </Grid>
     </div>
   );
 };
