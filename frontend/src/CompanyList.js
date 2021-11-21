@@ -27,7 +27,10 @@ const CompanyList = () => {
       <Grid container spacing={1} justifyContent="center" p={2}>
         {companies.map((company) => (
           <Grid item xs={8}>
-            <CardActionArea component={Link} to="/">
+            <CardActionArea
+              component={Link}
+              to={`/companies/${company.handle}`}
+            >
               <CompanyCard key={company.handle} company={company} />{" "}
             </CardActionArea>
           </Grid>

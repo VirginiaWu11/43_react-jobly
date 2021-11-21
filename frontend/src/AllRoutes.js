@@ -6,6 +6,7 @@ import CompanyList from "./CompanyList";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import ProfileForm from "./ProfileForm";
+import CompanyDetail from "./CompanyDetail";
 
 const AllRoutes = () => {
   return (
@@ -15,8 +16,8 @@ const AllRoutes = () => {
       <Route exact path="/signup" element={<SignupForm />} />
       <Route exact path="/profile" element={<ProfileForm />} />
       <Route exact path="/jobs" element={<JobList />} />
-      <Route exact path="/companies" element={<CompanyList />} />
-      <Route exact path="/companies/:name" element={<JobList />} />
+      <Route path="/companies/:handle" element={<CompanyDetail />} />
+      <Route path="/companies" element={<CompanyList />} />
 
       <Route element={<p>not found</p>}></Route>
     </Routes>
