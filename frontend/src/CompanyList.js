@@ -4,19 +4,22 @@ import CompanyCard from "./CompanyCard";
 import Grid from "@mui/material/Grid";
 import { CardActionArea } from "@mui/material";
 import { Link } from "react-router-dom";
+import SearchForm from "./SearchForm";
 
 const CompanyList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [companies, setCompanies] = useState([]);
 
   useEffect(() => {
-    async function getCompanies() {
-      let resp = await JoblyApi.getCompanies();
-      setCompanies(resp);
-      setIsLoading(false);
-    }
-    getCompanies();
+    searchCompanies(companies);
   }, []);
+
+  async function searchCompanies(name) {
+    let resp = await JoblyApi.getCompanies(name);
+    setCompanies(resp);
+    console.log(resp);
+    setIsLoading(false);
+  }
 
   if (isLoading) {
     return <p>Loading &hellip;</p>;
@@ -25,16 +28,22 @@ const CompanyList = () => {
   return (
     <div>
       <Grid container spacing={1} justifyContent="center" p={2}>
-        {companies.map((company) => (
-          <Grid item xs={8}>
-            <CardActionArea
-              component={Link}
-              to={`/companies/${company.handle}`}
-            >
-              <CompanyCard key={company.handle} company={company} />{" "}
-            </CardActionArea>
-          </Grid>
-        ))}
+        <SearchForm searchFor={searchCompanies} />
+
+        {companies.length ? (
+          companies.map((company) => (
+            <Grid item xs={8}>
+              <CardActionArea
+                component={Link}
+                to={`/companies/${company.handle}`}
+              >
+                <CompanyCard key={company.handle} company={company} />{" "}
+              </CardActionArea>
+            </Grid>
+          ))
+        ) : (
+          <p>No companies found</p>
+        )}
       </Grid>
     </div>
   );
