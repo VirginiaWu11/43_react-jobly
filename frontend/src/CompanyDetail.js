@@ -28,14 +28,18 @@ const CompanyDetail = () => {
     company.jobs.length && (
       <div>
         <Grid container spacing={1} justifyContent="center" p={2}>
-          <Typography variant="h4" display="block">
-            {company.name}
-          </Typography>
-          <Typography variant="span" display="block">
-            {company.description}
-          </Typography>
-          <JobCardList jobs={company.jobs} />)
+          <Grid item xs={8}>
+            <Typography variant="h4" display="block">
+              {company.name}
+            </Typography>
+          </Grid>
+          <Grid item xs={8}>
+            <Typography variant="span" display="block">
+              {company.description}
+            </Typography>
+          </Grid>
         </Grid>
+        <JobCardList jobs={company.jobs} />)
       </div>
     )
   );
