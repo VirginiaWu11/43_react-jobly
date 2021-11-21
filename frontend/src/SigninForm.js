@@ -72,9 +72,9 @@ export default function SigninForm() {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
+                id="username"
+                label="Username"
+                name="username"
                 autoComplete="email"
                 autoFocus
               />
