@@ -28,8 +28,9 @@ const CompanyList = () => {
   return (
     <div>
       <Grid container spacing={1} justifyContent="center" p={2}>
-        <SearchForm searchFor={searchCompanies} />
-
+        <Grid item xs={8}>
+          <SearchForm searchFor={searchCompanies} />
+        </Grid>
         {companies.length ? (
           companies.map((company) => (
             <Grid item xs={8}>
@@ -42,7 +43,9 @@ const CompanyList = () => {
             </Grid>
           ))
         ) : (
-          <p>No companies found</p>
+          <Grid item xs={8}>
+            <p>No companies found</p>
+          </Grid>
         )}
       </Grid>
     </div>
