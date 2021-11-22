@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import JoblyApi from "./api";
 import useLocalStorage from "./hooks/useLocalStorage";
 import jwt from "jsonwebtoken";
+import UserContext from "./UserContext";
 
 export const TOKEN_STORAGE_ID = "jobly-token";
 
@@ -27,11 +28,14 @@ function App() {
             let { username } = jwt.decode(token);
             // put the token on the Api class so it can use it to call the API.
             JoblyApi.token = token;
-            let currentUser = await JoblyApi.getCurrentUser(username);
-            setCurrentUser(currentUser);
-            setApplicationIds(new Set(currentUser.applications));
+            let currentUserRes = await JoblyApi.getCurrentUser(username);
+            setCurrentUser(currentUserRes);
+            console.log("in appjsRes:", currentUserRes, currentUser);
+
+            setApplicationIds(new Set(currentUserRes.applications));
           } catch (err) {
             console.error("App loadUserInfo: problem loading", err);
+            console.log("in appjsErr:", err);
             setCurrentUser(null);
           }
         }
@@ -46,6 +50,7 @@ function App() {
     },
     [token]
   );
+  console.log("in appjs:", currentUser);
 
   async function signup(signupData) {
     try {
@@ -78,10 +83,12 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <NavBar signout={signout} />
-        <Box sx={{ flexGrow: 1 }}>
-          <AllRoutes signin={signin} signup={signup} />
-        </Box>
+        <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+          <NavBar signout={signout} />
+          <Box sx={{ flexGrow: 1 }}>
+            <AllRoutes signin={signin} signup={signup} />
+          </Box>
+        </UserContext.Provider>
       </BrowserRouter>
     </div>
   );
