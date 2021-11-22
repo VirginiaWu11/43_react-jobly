@@ -12,7 +12,7 @@ const CompanyList = () => {
 
   useEffect(() => {
     searchCompanies(companies);
-  }, []);
+  }, [companies]);
 
   async function searchCompanies(name) {
     let resp = await JoblyApi.getCompanies(name);
