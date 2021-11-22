@@ -70,10 +70,15 @@ function App() {
     }
   }
 
+  function signout() {
+    setCurrentUser(null);
+    setToken(null);
+  }
+
   return (
     <div className="App">
       <BrowserRouter>
-        <NavBar />
+        <NavBar signout={signout} />
         <Box sx={{ flexGrow: 1 }}>
           <AllRoutes signin={signin} signup={signup} />
         </Box>

@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
-export default function NavBar() {
+export default function NavBar({ signout }) {
   return (
     <AppBar position="static">
       <Toolbar>
@@ -23,7 +23,7 @@ export default function NavBar() {
         <Button component={Link} to="/profile" color="inherit">
           Profile
         </Button>
-        <Button component={Link} to="/logout" color="inherit">
+        <Button component={Link} to="/" color="inherit" onClick={signout}>
           Logout
         </Button>
         <Button component={Link} to="/signin" color="inherit">
