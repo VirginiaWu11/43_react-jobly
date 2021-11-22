@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,18 +9,40 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 
 const theme = createTheme();
 
-export default function LoginForm() {
-  const handleSubmit = (event) => {
+export default function SignupForm({ signup }) {
+  const [formErrors, setFormErrors] = useState([]);
+  const navigate = useNavigate();
+  console.debug("SignupForm", "signup=", typeof signup);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
+    console.log("signupform:", typeof signup, formErrors);
+    let result = await signup({
+      username: data.get("username"),
+      password: data.get("password"),
+      firstName: data.get("firstName"),
+      lastName: data.get("lastName"),
+      email: data.get("email"),
+    });
+
+    if (result.success) {
+      navigate("/companies");
+    } else {
+      setFormErrors(result.errors);
+    }
     console.log({
       username: data.get("username"),
       password: data.get("password"),
+      firstName: data.get("firstName"),
+      lastName: data.get("lastName"),
+      email: data.get("email"),
     });
   };
 
@@ -75,6 +97,7 @@ export default function LoginForm() {
                     label="Username"
                     name="username"
                     autoComplete="username"
+                    value="123abc"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -86,6 +109,7 @@ export default function LoginForm() {
                     id="firstName"
                     label="First Name"
                     autoFocus
+                    value="123"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -96,6 +120,7 @@ export default function LoginForm() {
                     label="Last Name"
                     name="lastName"
                     autoComplete="family-name"
+                    value="abc"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -106,6 +131,7 @@ export default function LoginForm() {
                     label="Email Address"
                     name="email"
                     autoComplete="email"
+                    value="123@abc.com"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -117,6 +143,7 @@ export default function LoginForm() {
                     type="password"
                     id="password"
                     autoComplete="new-password"
+                    value="111111"
                   />
                 </Grid>
               </Grid>
@@ -128,6 +155,9 @@ export default function LoginForm() {
               >
                 Sign Up
               </Button>
+              {/* {formErrors.length ? (
+                <Alert severity="danger">{formErrors}</Alert>
+              ) : null} */}
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link to="/signin" variant="body2">
