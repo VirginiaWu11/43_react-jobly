@@ -59,12 +59,23 @@ function App() {
   }
   console.log("app:", typeof signup);
 
+  async function signin(loginData) {
+    try {
+      let token = await JoblyApi.signin(loginData);
+      setToken(token);
+      return { success: true };
+    } catch (errors) {
+      console.error("login failed", errors);
+      return { success: false, errors };
+    }
+  }
+
   return (
     <div className="App">
       <BrowserRouter>
         <NavBar />
         <Box sx={{ flexGrow: 1 }}>
-          <AllRoutes signup={signup} />
+          <AllRoutes signin={signin} signup={signup} />
         </Box>
       </BrowserRouter>
     </div>

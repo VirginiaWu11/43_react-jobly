@@ -8,11 +8,11 @@ import SignupForm from "./SignupForm";
 import ProfileForm from "./ProfileForm";
 import CompanyDetail from "./CompanyDetail";
 
-const AllRoutes = ({ signup }) => {
+const AllRoutes = ({ signup, signin }) => {
   return (
     <Routes>
       <Route exact path="/" element={<Home />} />
-      <Route exact path="/signin" element={<SigninForm />} />
+      <Route exact path="/signin" element={<SigninForm signin={signin} />} />
       <Route exact path="/signup" element={<SignupForm signup={signup} />} />
       <Route exact path="/profile" element={<ProfileForm />} />
       <Route exact path="/jobs" element={<JobList />} />
