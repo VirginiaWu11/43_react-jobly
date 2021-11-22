@@ -155,9 +155,11 @@ export default function SignupForm({ signup }) {
               >
                 Sign Up
               </Button>
-              {/* {formErrors.length ? (
-                <Alert severity="danger">{formErrors}</Alert>
-              ) : null} */}
+              {formErrors.length
+                ? formErrors.map((error) => (
+                    <Alert severity="error">{error}</Alert>
+                  ))
+                : null}
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link to="/signin" variant="body2">
