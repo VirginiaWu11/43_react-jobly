@@ -7,6 +7,7 @@ import SigninForm from "./SigninForm";
 import SignupForm from "./SignupForm";
 import ProfileForm from "./ProfileForm";
 import CompanyDetail from "./CompanyDetail";
+import PrivateRoute from "./PrivateRoute";
 
 const AllRoutes = ({ signup, signin }) => {
   return (
@@ -14,10 +15,40 @@ const AllRoutes = ({ signup, signin }) => {
       <Route exact path="/" element={<Home />} />
       <Route exact path="/signin" element={<SigninForm signin={signin} />} />
       <Route exact path="/signup" element={<SignupForm signup={signup} />} />
-      <Route exact path="/profile" element={<ProfileForm />} />
-      <Route exact path="/jobs" element={<JobList />} />
-      <Route path="/companies/:handle" element={<CompanyDetail />} />
-      <Route path="/companies" element={<CompanyList />} />
+      <Route
+        exact
+        path="/profile"
+        element={
+          <PrivateRoute>
+            <ProfileForm />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        exact
+        path="/jobs"
+        element={
+          <PrivateRoute>
+            <JobList />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/companies/:handle"
+        element={
+          <PrivateRoute>
+            <CompanyDetail />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/companies"
+        element={
+          <PrivateRoute>
+            <CompanyList />
+          </PrivateRoute>
+        }
+      />
 
       <Route element={<p>not found</p>}></Route>
     </Routes>
