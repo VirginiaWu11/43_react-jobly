@@ -42,7 +42,7 @@ export default function NavBar({ signout }) {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           <Button size="large" component={Link} to="/" color="inherit">
