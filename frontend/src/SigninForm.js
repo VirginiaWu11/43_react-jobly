@@ -10,6 +10,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 
 const theme = createTheme();
 
@@ -20,7 +21,6 @@ export default function SigninForm({ signin }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
     let result = await signin({
       username: data.get("username"),
       password: data.get("password"),
@@ -108,6 +108,11 @@ export default function SigninForm({ signin }) {
               >
                 Sign In
               </Button>
+              {formErrors.length
+                ? formErrors.map((error) => (
+                    <Alert severity="error">{error}</Alert>
+                  ))
+                : null}
               <Grid container>
                 <Grid item xs></Grid>
                 <Grid item>
