@@ -13,11 +13,12 @@ const CompanyList = () => {
   // const [companiesAutocomplete, setCompaniesAutocomplete] = useState([]);
 
   useEffect(() => {
-    searchCompanies(companies);
+    searchCompanies();
     // setCompaniesAutocomplete(companies);
-  }, [companies]);
+  }, []);
 
   async function searchCompanies(name) {
+    console.log({ name });
     let resp = await JoblyApi.getCompanies(name);
     setCompanies(resp);
     console.log(resp);
