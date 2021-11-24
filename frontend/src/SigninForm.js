@@ -13,47 +13,35 @@ import { Link, useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Container from "@mui/material/Container";
 
-// import * as yup from "yup";
-// import { useFormik } from "formik";
+import * as yup from "yup";
+import { useFormik } from "formik";
 
 const theme = createTheme();
-// const validationSchema = yup.object({
-//   username: yup.string().required("Username is required"),
-//   password: yup.string().required("Password is required").min(5),
-// });
+const validationSchema = yup.object({
+  username: yup.string().required("Username is required"),
+  password: yup.string().required("Password is required").min(6),
+});
 
 export default function SigninForm({ signin }) {
   const [formErrors, setFormErrors] = useState([]);
   const navigate = useNavigate();
 
-  // const formik = useFormik({
-  //   initialValues: {
-  //     username: "",
-  //     password: "",
-  //   },
-  //   onSubmit: (values) => {
-  //     console.log(JSON.stringify(values));
-  //   },
-  //   validationSchema: validationSchema,
-  // });
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    let result = await signin({
-      username: data.get("username"),
-      password: data.get("password"),
-    });
-    if (result.success) {
-      navigate("/companies");
-    } else {
-      setFormErrors(result.errors);
-    }
-    console.log({
-      username: data.get("username"),
-      password: data.get("password"),
-    });
-  };
+  const formik = useFormik({
+    initialValues: {
+      username: "123abc",
+      password: "111111",
+    },
+    onSubmit: async (values) => {
+      console.log(JSON.stringify(values));
+      let result = await signin(values);
+      if (result.success) {
+        navigate("/companies");
+      } else {
+        setFormErrors(result.errors);
+      }
+    },
+    validationSchema: validationSchema,
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -95,7 +83,7 @@ export default function SigninForm({ signin }) {
               <Box
                 component="form"
                 noValidate
-                onSubmit={handleSubmit}
+                onSubmit={formik.handleSubmit}
                 sx={{ mt: 1 }}
               >
                 <TextField
@@ -107,7 +95,13 @@ export default function SigninForm({ signin }) {
                   name="username"
                   autoComplete="username"
                   autoFocus
-                  value="123abc"
+                  value={formik.values.username}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.username && Boolean(formik.errors.username)
+                  }
+                  helperText={formik.touched.username && formik.errors.username}
+                  onBlur={formik.handleBlur}
                 />
                 <TextField
                   margin="normal"
@@ -118,7 +112,13 @@ export default function SigninForm({ signin }) {
                   type="password"
                   id="password"
                   autoComplete="current-password"
-                  value="111111"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.password && Boolean(formik.errors.password)
+                  }
+                  helperText={formik.touched.password && formik.errors.password}
+                  onBlur={formik.handleBlur}
                 />
                 <Button
                   type="submit"

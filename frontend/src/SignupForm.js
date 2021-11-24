@@ -13,39 +13,45 @@ import { Link, useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Container from "@mui/material/Container";
 
+import * as yup from "yup";
+import { useFormik } from "formik";
+
 const theme = createTheme();
+
+const validationSchema = yup.object({
+  username: yup.string().required("Username is required"),
+  password: yup.string().required("Password is required").min(6),
+  firstName: yup.string().required("First Name is required"),
+  lastName: yup.string().required("Last Name is required"),
+  email: yup
+    .string()
+    .required("Email is required")
+    .email("Enter a valid email"),
+});
 
 export default function SignupForm({ signup }) {
   const [formErrors, setFormErrors] = useState([]);
   const navigate = useNavigate();
-  console.debug("SignupForm", "signup=", typeof signup);
+  console.debug("SignupForm", "signup=", typeof signup, { formErrors });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log("signupform:", typeof signup, formErrors);
-    let result = await signup({
-      username: data.get("username"),
-      password: data.get("password"),
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
-      email: data.get("email"),
-    });
-
-    if (result.success) {
-      navigate("/companies");
-    } else {
-      setFormErrors(result.errors);
-    }
-    console.log({
-      username: data.get("username"),
-      password: data.get("password"),
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
-      email: data.get("email"),
-    });
-  };
+  const formik = useFormik({
+    initialValues: {
+      username: "123abc",
+      password: "111111",
+      firstName: "123",
+      lastName: "abc",
+      email: "123@abc.com",
+    },
+    onSubmit: async (values) => {
+      let result = await signup(values);
+      if (result.success) {
+        navigate("/companies");
+      } else {
+        setFormErrors(result.errors);
+      }
+    },
+    validationSchema: validationSchema,
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -88,7 +94,7 @@ export default function SignupForm({ signup }) {
               <Box
                 component="form"
                 noValidate
-                onSubmit={handleSubmit}
+                onSubmit={formik.handleSubmit}
                 sx={{ mt: 3 }}
               >
                 <Grid container spacing={2}>
@@ -100,7 +106,16 @@ export default function SignupForm({ signup }) {
                       label="Username"
                       name="username"
                       autoComplete="username"
-                      value="123abc"
+                      value={formik.values.username}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.username &&
+                        Boolean(formik.errors.username)
+                      }
+                      helperText={
+                        formik.touched.username && formik.errors.username
+                      }
+                      onBlur={formik.handleBlur}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -112,7 +127,16 @@ export default function SignupForm({ signup }) {
                       id="firstName"
                       label="First Name"
                       autoFocus
-                      value="123"
+                      value={formik.values.firstName}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.firstName &&
+                        Boolean(formik.errors.firstName)
+                      }
+                      helperText={
+                        formik.touched.firstName && formik.errors.firstName
+                      }
+                      onBlur={formik.handleBlur}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -123,7 +147,16 @@ export default function SignupForm({ signup }) {
                       label="Last Name"
                       name="lastName"
                       autoComplete="family-name"
-                      value="abc"
+                      value={formik.values.lastName}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.lastName &&
+                        Boolean(formik.errors.lastName)
+                      }
+                      helperText={
+                        formik.touched.lastName && formik.errors.lastName
+                      }
+                      onBlur={formik.handleBlur}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -134,7 +167,13 @@ export default function SignupForm({ signup }) {
                       label="Email Address"
                       name="email"
                       autoComplete="email"
-                      value="123@abc.com"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.email && Boolean(formik.errors.email)
+                      }
+                      helperText={formik.touched.email && formik.errors.email}
+                      onBlur={formik.handleBlur}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -146,7 +185,16 @@ export default function SignupForm({ signup }) {
                       type="password"
                       id="password"
                       autoComplete="new-password"
-                      value="111111"
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                      error={
+                        formik.touched.password &&
+                        Boolean(formik.errors.password)
+                      }
+                      helperText={
+                        formik.touched.password && formik.errors.password
+                      }
+                      onBlur={formik.handleBlur}
                     />
                   </Grid>
                 </Grid>
