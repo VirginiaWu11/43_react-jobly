@@ -8,7 +8,6 @@ import UserContext from "./UserContext";
 
 export default function NavBar({ signout }) {
   const { currentUser } = useContext(UserContext);
-  console.log(currentUser);
   const signedInNav = () => {
     return (
       <>

@@ -49,7 +49,6 @@ function App() {
     },
     [token]
   );
-  console.log("in appjs Currect user:", currentUser);
 
   async function signup(signupData) {
     try {

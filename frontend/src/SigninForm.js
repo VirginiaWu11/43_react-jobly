@@ -32,7 +32,6 @@ export default function SigninForm({ signin }) {
       password: "111111",
     },
     onSubmit: async (values) => {
-      console.log(JSON.stringify(values));
       let result = await signin(values);
       if (result.success) {
         navigate("/companies");
