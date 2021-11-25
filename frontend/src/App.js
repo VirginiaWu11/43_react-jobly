@@ -88,13 +88,32 @@ function App() {
     }
   };
 
+  function hasAppliedToJob(id) {
+    return applicationIds.has(id);
+  }
+  const applyToJob = async (jobId) => {
+    if (hasAppliedToJob(jobId)) return;
+    try {
+      JoblyApi.applyToJob(currentUser.username, jobId);
+      setApplicationIds(new Set([...applicationIds, jobId]));
+    } catch (err) {
+      console.error("applyToJob failed", err);
+    }
+  };
+
   if (!infoLoaded) return <LoadingSpinner />;
 
   return (
     <div className="App">
       <BrowserRouter>
         <UserContext.Provider
-          value={{ currentUser, setCurrentUser, updateProfile }}
+          value={{
+            currentUser,
+            setCurrentUser,
+            updateProfile,
+            hasAppliedToJob,
+            applyToJob,
+          }}
         >
           <NavBar signout={signout} />
           <Box sx={{ flexGrow: 1 }}>

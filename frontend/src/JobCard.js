@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -11,12 +11,25 @@ const JobCard = ({ job }) => {
   const { hasAppliedToJob, applyToJob } = useContext(UserContext);
   const [applied, setApplied] = useState();
 
+  useEffect(
+    function updateAppliedStatus() {
+      setApplied(hasAppliedToJob(job.id));
+    },
+    [hasAppliedToJob, job.id]
+  );
+
+  const handleApply = async () => {
+    if (hasAppliedToJob(job.id)) return;
+    applyToJob(job.id);
+    setApplied(true);
+  };
+
   return (
-    <Card sx={{ minWidth: 275 /*  display: "flex" */ }}>
+    <Card sx={{ minWidth: 275 }}>
       <Box
         sx={{
           display: "flex",
-          // /* flexDirection: "column", */
+          flexDirection: "column",
         }}
       >
         <CardContent>
@@ -33,7 +46,7 @@ const JobCard = ({ job }) => {
       <Grid container justifyContent="flex-end">
         <Button
           variant="contained"
-          // onClick={handleApply}
+          onClick={handleApply}
           size="large"
           disabled={applied}
           sx={{ mb: 2, mr: 2 }}
