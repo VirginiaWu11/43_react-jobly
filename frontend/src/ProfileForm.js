@@ -20,7 +20,6 @@ import { useFormik } from "formik";
 const theme = createTheme();
 
 const validationSchema = yup.object({
-  username: yup.string().required("Username is required"),
   password: yup.string().required("Password is required").min(6),
   firstName: yup.string().required("First Name is required"),
   lastName: yup.string().required("Last Name is required"),
@@ -32,8 +31,11 @@ const validationSchema = yup.object({
 
 export default function ProfileForm({ signup }) {
   const [formErrors, setFormErrors] = useState([]);
+  const [saveConfirmed, setSaveConfirmed] = useState(false);
+
   const navigate = useNavigate();
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser, updateProfile } =
+    useContext(UserContext);
   console.debug(
     "ProfileForm",
     "signup=",
@@ -44,19 +46,22 @@ export default function ProfileForm({ signup }) {
 
   const formik = useFormik({
     initialValues: {
-      username: `${currentUser.username}`,
       password: "",
       firstName: `${currentUser.firstName}`,
       lastName: `${currentUser.lastName}`,
       email: `${currentUser.email}`,
     },
     onSubmit: async (values) => {
-      let result = await signup(values);
-      if (result.success) {
-        navigate("/companies");
-      } else {
+      let result = await updateProfile(currentUser.username, values);
+      if (!result.success) {
         setFormErrors(result.errors);
+        return;
       }
+      setFormErrors([]);
+      setSaveConfirmed(true);
+
+      // trigger reloading of user information throughout the site
+      setCurrentUser(result.updatedUser);
     },
     validationSchema: validationSchema,
   });
@@ -96,7 +101,7 @@ export default function ProfileForm({ signup }) {
               <PersonOutlineIcon fontSize="large" />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Edit Profile
+              {currentUser.username}'s Profile
             </Typography>
             <Container maxWidth="xs">
               <Box
@@ -106,26 +111,6 @@ export default function ProfileForm({ signup }) {
                 sx={{ mt: 3 }}
               >
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="username"
-                      label="Username"
-                      name="username"
-                      autoComplete="username"
-                      value={formik.values.username}
-                      onChange={formik.handleChange}
-                      error={
-                        formik.touched.username &&
-                        Boolean(formik.errors.username)
-                      }
-                      helperText={
-                        formik.touched.username && formik.errors.username
-                      }
-                      onBlur={formik.handleBlur}
-                    />
-                  </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField
                       autoComplete="given-name"
@@ -189,7 +174,7 @@ export default function ProfileForm({ signup }) {
                       required
                       fullWidth
                       name="password"
-                      label="Conform password to make changes"
+                      label="password"
                       type="password"
                       id="password"
                       autoComplete="new-password"
@@ -212,20 +197,16 @@ export default function ProfileForm({ signup }) {
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Sign Up
+                  Update Profile
                 </Button>
                 {formErrors.length
                   ? formErrors.map((error) => (
                       <Alert severity="error">{error}</Alert>
                     ))
                   : null}
-                <Grid container justifyContent="flex-end">
-                  <Grid item>
-                    <Link to="/signin" variant="body2">
-                      Already have an account? Sign in
-                    </Link>
-                  </Grid>
-                </Grid>
+                {saveConfirmed.length ? (
+                  <Alert severity="success">"Updated successfully."</Alert>
+                ) : null}
               </Box>
             </Container>
           </Box>
