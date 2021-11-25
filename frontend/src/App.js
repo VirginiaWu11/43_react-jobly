@@ -80,10 +80,21 @@ function App() {
     setToken(null);
   }
 
+  const updateProfile = async (username, newUserData) => {
+    try {
+      let updatedUser = await JoblyApi.updateProfile(username, newUserData);
+      return { success: updatedUser };
+    } catch (errors) {
+      return { success: false, errors };
+    }
+  };
+
   return (
     <div className="App">
       <BrowserRouter>
-        <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+        <UserContext.Provider
+          value={{ currentUser, setCurrentUser, updateProfile }}
+        >
           <NavBar signout={signout} />
           <Box sx={{ flexGrow: 1 }}>
             <AllRoutes signin={signin} signup={signup} />
