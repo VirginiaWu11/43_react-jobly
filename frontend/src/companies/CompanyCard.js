@@ -33,6 +33,7 @@ const CompanyCard = ({ company }) => {
             objectFit: "contain",
             width: "8rem",
             display: { xs: "none", sm: "block" },
+            m: 1,
           }}
           image={company.logoUrl}
           alt={`${company.name} logo`}
