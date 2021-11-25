@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import JobCardList from "./JobCardList";
-import JoblyApi from "./api";
+import JobCardList from "../JobCardList";
+import JoblyApi from "../api";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
