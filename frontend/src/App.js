@@ -81,7 +81,8 @@ function App() {
   const updateProfile = async (username, newUserData) => {
     try {
       let updatedUser = await JoblyApi.updateProfile(username, newUserData);
-      return { success: updatedUser };
+      console.debug("appjs", { updatedUser });
+      return { success: true, updatedUser };
     } catch (errors) {
       return { success: false, errors };
     }

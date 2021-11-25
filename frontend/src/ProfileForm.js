@@ -9,7 +9,6 @@ import Grid from "@mui/material/Grid";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Link, useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Container from "@mui/material/Container";
 import UserContext from "./UserContext";
@@ -33,16 +32,9 @@ export default function ProfileForm({ signup }) {
   const [formErrors, setFormErrors] = useState([]);
   const [saveConfirmed, setSaveConfirmed] = useState(false);
 
-  const navigate = useNavigate();
   const { currentUser, setCurrentUser, updateProfile } =
     useContext(UserContext);
-  console.debug(
-    "ProfileForm",
-    "signup=",
-    typeof signup,
-    { formErrors },
-    currentUser
-  );
+  console.debug("ProfileForm", "signup=", { formErrors }, currentUser);
 
   const formik = useFormik({
     initialValues: {
@@ -53,6 +45,7 @@ export default function ProfileForm({ signup }) {
     },
     onSubmit: async (values) => {
       let result = await updateProfile(currentUser.username, values);
+      console.debug("ProfileForm", "updateProfile result", result);
       if (!result.success) {
         setFormErrors(result.errors);
         return;
@@ -204,7 +197,7 @@ export default function ProfileForm({ signup }) {
                       <Alert severity="error">{error}</Alert>
                     ))
                   : null}
-                {saveConfirmed.length ? (
+                {saveConfirmed ? (
                   <Alert severity="success">"Updated successfully."</Alert>
                 ) : null}
               </Box>
