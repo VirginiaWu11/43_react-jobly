@@ -29,7 +29,11 @@ const CompanyCard = ({ company }) => {
       {company.logoUrl && (
         <CardMedia
           component="img"
-          sx={{ objectFit: "contain", width: "200px" }}
+          sx={{
+            objectFit: "contain",
+            width: "8rem",
+            display: { xs: "none", sm: "block" },
+          }}
           image={company.logoUrl}
           alt={`${company.name} logo`}
         />
