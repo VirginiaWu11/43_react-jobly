@@ -4,6 +4,7 @@ import UserContext from "./UserContext";
 
 const PrivateRoute = ({ children }) => {
   const { currentUser } = useContext(UserContext);
+  console.debug("PrivateRoute", "currentUser=", currentUser);
   return currentUser ? children : <Navigate to="/signin" />;
 };
 

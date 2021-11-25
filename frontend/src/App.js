@@ -8,6 +8,7 @@ import JoblyApi from "./api";
 import useLocalStorage from "./hooks/useLocalStorage";
 import jwt from "jsonwebtoken";
 import UserContext from "./UserContext";
+import LoadingSpinner from "./LoadingSpinner";
 
 export const TOKEN_STORAGE_ID = "jobly-token";
 
@@ -30,12 +31,10 @@ function App() {
             JoblyApi.token = token;
             let currentUserRes = await JoblyApi.getCurrentUser(username);
             setCurrentUser(currentUserRes);
-            console.log("in appjsRes:", currentUserRes, currentUser);
 
             setApplicationIds(new Set(currentUserRes.applications));
           } catch (err) {
             console.error("App loadUserInfo: problem loading", err);
-            console.log("in appjsErr:", err);
             setCurrentUser(null);
           }
         }
@@ -50,7 +49,7 @@ function App() {
     },
     [token]
   );
-  console.log("in appjs:", currentUser);
+  console.log("in appjs Currect user:", currentUser);
 
   async function signup(signupData) {
     try {
@@ -62,7 +61,6 @@ function App() {
       return { success: false, errors };
     }
   }
-  console.log("app:", typeof signup);
 
   async function signin(loginData) {
     try {
@@ -88,6 +86,8 @@ function App() {
       return { success: false, errors };
     }
   };
+
+  if (!infoLoaded) return <LoadingSpinner />;
 
   return (
     <div className="App">
