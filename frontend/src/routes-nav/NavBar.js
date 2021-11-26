@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useUserContext } from "../auth/UserContext";
 
 export default function NavBar({ signout }) {
-  const { currentUser } = useUserContext;
+  const { currentUser } = useUserContext();
   const signedInNav = () => {
     return (
       <>
