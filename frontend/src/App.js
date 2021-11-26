@@ -12,20 +12,8 @@ export const TOKEN_STORAGE_ID = "jobly-token";
 
 function App() {
   const [infoLoaded, setInfoLoaded] = useState(false);
-  const {
-    currentUser,
-    setCurrentUser,
-    applicationIds,
-    setApplicationIds,
-    token,
-    setToken,
-    signup,
-    signin,
-    signout,
-    updateProfile,
-    hasAppliedToJob,
-    applyToJob,
-  } = useUserContext();
+  const { setCurrentUser, setApplicationIds, token, signup, signin, signout } =
+    useUserContext();
 
   useEffect(
     function loadUserInfo() {
@@ -55,7 +43,7 @@ function App() {
       setInfoLoaded(false);
       getCurrentUser();
     },
-    [token]
+    [token, setCurrentUser, setApplicationIds]
   );
 
   if (!infoLoaded) return <LoadingSpinner />;
