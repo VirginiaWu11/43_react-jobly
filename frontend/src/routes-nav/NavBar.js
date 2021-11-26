@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-import UserContext from "../auth/UserContext";
+import { useUserContext } from "../auth/UserContext";
 
 export default function NavBar({ signout }) {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useUserContext;
   const signedInNav = () => {
     return (
       <>

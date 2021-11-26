@@ -1,14 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { Grid } from "@mui/material";
-import UserContext from "../auth/UserContext";
+import { useUserContext } from "../auth/UserContext";
 
 const JobCard = ({ job }) => {
-  const { hasAppliedToJob, applyToJob } = useContext(UserContext);
+  const { hasAppliedToJob, applyToJob } = useUserContext();
   const [applied, setApplied] = useState();
 
   useEffect(

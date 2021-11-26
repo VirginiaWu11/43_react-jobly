@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import Paper from "@mui/material/Paper";
@@ -7,12 +7,12 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
-import UserContext from "./auth/UserContext";
+import { useUserContext } from "./auth/UserContext";
 
 const theme = createTheme();
 
 export default function Home() {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useUserContext();
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>

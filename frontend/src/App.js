@@ -1,23 +1,31 @@
 import { BrowserRouter } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-
 import AllRoutes from "./routes-nav/AllRoutes";
 import NavBar from "./routes-nav/NavBar";
 import Box from "@mui/material/Box";
 import JoblyApi from "./api";
-import useLocalStorage from "./hooks/useLocalStorage";
 import jwt from "jsonwebtoken";
-import UserContext from "./auth/UserContext";
 import LoadingSpinner from "./common/LoadingSpinner";
+import { useUserContext } from "./auth/UserContext";
 
 export const TOKEN_STORAGE_ID = "jobly-token";
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [applicationIds, setApplicationIds] = useState(new Set([]));
   const [infoLoaded, setInfoLoaded] = useState(false);
-
-  const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
+  const {
+    currentUser,
+    setCurrentUser,
+    applicationIds,
+    setApplicationIds,
+    token,
+    setToken,
+    signup,
+    signin,
+    signout,
+    updateProfile,
+    hasAppliedToJob,
+    applyToJob,
+  } = useUserContext();
 
   useEffect(
     function loadUserInfo() {
@@ -50,75 +58,15 @@ function App() {
     [token]
   );
 
-  async function signup(signupData) {
-    try {
-      let token = await JoblyApi.register(signupData);
-      setToken(token);
-      return { success: true };
-    } catch (errors) {
-      console.error("signup failed", errors);
-      return { success: false, errors };
-    }
-  }
-
-  async function signin(loginData) {
-    try {
-      let token = await JoblyApi.signin(loginData);
-      setToken(token);
-      return { success: true };
-    } catch (errors) {
-      console.error("login failed", errors);
-      return { success: false, errors };
-    }
-  }
-
-  function signout() {
-    setCurrentUser(null);
-    setToken(null);
-  }
-
-  const updateProfile = async (username, newUserData) => {
-    try {
-      let updatedUser = await JoblyApi.updateProfile(username, newUserData);
-      console.debug("appjs", { updatedUser });
-      return { success: true, updatedUser };
-    } catch (errors) {
-      return { success: false, errors };
-    }
-  };
-
-  function hasAppliedToJob(id) {
-    return applicationIds.has(id);
-  }
-  const applyToJob = async (jobId) => {
-    if (hasAppliedToJob(jobId)) return;
-    try {
-      JoblyApi.applyToJob(currentUser.username, jobId);
-      setApplicationIds(new Set([...applicationIds, jobId]));
-    } catch (err) {
-      console.error("applyToJob failed", err);
-    }
-  };
-
   if (!infoLoaded) return <LoadingSpinner />;
 
   return (
     <div className="App">
       <BrowserRouter>
-        <UserContext.Provider
-          value={{
-            currentUser,
-            setCurrentUser,
-            updateProfile,
-            hasAppliedToJob,
-            applyToJob,
-          }}
-        >
-          <NavBar signout={signout} />
-          <Box sx={{ flexGrow: 1 }}>
-            <AllRoutes signin={signin} signup={signup} />
-          </Box>
-        </UserContext.Provider>
+        <NavBar signout={signout} />
+        <Box sx={{ flexGrow: 1 }}>
+          <AllRoutes signin={signin} signup={signup} />
+        </Box>
       </BrowserRouter>
     </div>
   );

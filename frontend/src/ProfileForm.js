@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Alert from "@mui/material/Alert";
 import Container from "@mui/material/Container";
-import UserContext from "./auth/UserContext";
+import { useUserContext } from "./auth/UserContext";
 
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -32,8 +32,7 @@ export default function ProfileForm({ signup }) {
   const [formErrors, setFormErrors] = useState([]);
   const [saveConfirmed, setSaveConfirmed] = useState(false);
 
-  const { currentUser, setCurrentUser, updateProfile } =
-    useContext(UserContext);
+  const { currentUser, setCurrentUser, updateProfile } = useUserContext();
   console.debug("ProfileForm", "signup=", { formErrors }, currentUser);
 
   const formik = useFormik({
