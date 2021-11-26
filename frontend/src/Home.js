@@ -7,7 +7,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
-import UserContext from "./UserContext";
+import UserContext from "./auth/UserContext";
 
 const theme = createTheme();
 

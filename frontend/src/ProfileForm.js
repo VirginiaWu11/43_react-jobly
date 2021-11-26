@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Alert from "@mui/material/Alert";
 import Container from "@mui/material/Container";
-import UserContext from "./UserContext";
+import UserContext from "./auth/UserContext";
 
 import * as yup from "yup";
 import { useFormik } from "formik";

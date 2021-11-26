@@ -4,7 +4,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-import UserContext from "./UserContext";
+import UserContext from "../auth/UserContext";
 
 export default function NavBar({ signout }) {
   const { currentUser } = useContext(UserContext);

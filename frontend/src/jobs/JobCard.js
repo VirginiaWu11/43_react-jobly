@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { Grid } from "@mui/material";
-import UserContext from "./UserContext";
+import UserContext from "../auth/UserContext";
 
 const JobCard = ({ job }) => {
   const { hasAppliedToJob, applyToJob } = useContext(UserContext);

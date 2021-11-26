@@ -1,14 +1,14 @@
 import { BrowserRouter } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 
-import AllRoutes from "./AllRoutes";
-import NavBar from "./NavBar";
+import AllRoutes from "./routes-nav/AllRoutes";
+import NavBar from "./routes-nav/NavBar";
 import Box from "@mui/material/Box";
 import JoblyApi from "./api";
 import useLocalStorage from "./hooks/useLocalStorage";
 import jwt from "jsonwebtoken";
-import UserContext from "./UserContext";
-import LoadingSpinner from "./LoadingSpinner";
+import UserContext from "./auth/UserContext";
+import LoadingSpinner from "./common/LoadingSpinner";
 
 export const TOKEN_STORAGE_ID = "jobly-token";
 

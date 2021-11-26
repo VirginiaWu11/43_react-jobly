@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import React from "react";
-import Home from "./Home";
-import JobList from "./JobList";
-import CompanyList from "./companies/CompanyList";
-import SigninForm from "./SigninForm";
-import SignupForm from "./SignupForm";
-import ProfileForm from "./ProfileForm";
-import CompanyDetail from "./companies/CompanyDetail";
+import Home from "../Home";
+import JobList from "../jobs/JobList";
+import CompanyList from "../companies/CompanyList";
+import SigninForm from "../auth/SigninForm";
+import SignupForm from "../auth/SignupForm";
+import ProfileForm from "../ProfileForm";
+import CompanyDetail from "../companies/CompanyDetail";
 import PrivateRoute from "./PrivateRoute";
 
 const AllRoutes = ({ signup, signin }) => {

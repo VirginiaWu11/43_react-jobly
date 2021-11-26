@@ -4,7 +4,7 @@ import CompanyCard from "./CompanyCard";
 import Grid from "@mui/material/Grid";
 import { CardActionArea } from "@mui/material";
 import { Link } from "react-router-dom";
-import SearchForm from "../SearchForm";
+import SearchForm from "../common/SearchForm";
 // import SearchFormA from "./SearchFormA";
 
 const CompanyList = () => {

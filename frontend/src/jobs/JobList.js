@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import JoblyApi from "./api";
+import JoblyApi from "../api";
 import JobCardList from "./JobCardList";
 import Grid from "@mui/material/Grid";
-import SearchForm from "./SearchForm";
+import SearchForm from "../common/SearchForm";
 
 const JobList = () => {
   const [isLoading, setIsLoading] = useState(true);
