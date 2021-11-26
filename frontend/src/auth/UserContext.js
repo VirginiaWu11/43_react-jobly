@@ -1,6 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import JoblyApi from "../api";
 import useLocalStorage from "../hooks/useLocalStorage";
+import jwt from "jsonwebtoken";
 
 export const UserContext = React.createContext();
 export const TOKEN_STORAGE_ID = "jobly-token";
@@ -9,6 +10,38 @@ export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [applicationIds, setApplicationIds] = useState(new Set([]));
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
+  const [infoLoaded, setInfoLoaded] = useState(false);
+
+  useEffect(
+    function loadUserInfo() {
+      console.debug("App useEffect loadUserInfo", "token=", token);
+
+      async function getCurrentUser() {
+        if (token) {
+          try {
+            let { username } = jwt.decode(token);
+            // put the token on the Api class so it can use it to call the API.
+            JoblyApi.token = token;
+            let currentUserRes = await JoblyApi.getCurrentUser(username);
+            setCurrentUser(currentUserRes);
+
+            setApplicationIds(new Set(currentUserRes.applications));
+          } catch (err) {
+            console.error("App loadUserInfo: problem loading", err);
+            setCurrentUser(null);
+          }
+        }
+        setInfoLoaded(true);
+      }
+
+      // set infoLoaded to false while async getCurrentUser runs; once the
+      // data is fetched (or even if an error happens!), this will be set back
+      // to false to control the spinner.
+      setInfoLoaded(false);
+      getCurrentUser();
+    },
+    [token, setCurrentUser, setApplicationIds]
+  );
 
   async function signup(signupData) {
     try {
@@ -73,6 +106,8 @@ export const UserProvider = ({ children }) => {
     updateProfile,
     hasAppliedToJob,
     applyToJob,
+    infoLoaded,
+    setInfoLoaded,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
