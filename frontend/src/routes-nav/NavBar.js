@@ -6,8 +6,8 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { useUserContext } from "../auth/UserContext";
 
-export default function NavBar({ signout }) {
-  const { currentUser } = useUserContext();
+export default function NavBar() {
+  const { currentUser, signout } = useUserContext();
   const signedInNav = () => {
     return (
       <>
