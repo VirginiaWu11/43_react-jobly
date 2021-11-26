@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Container from "@mui/material/Container";
+import { useUserContext } from "./UserContext";
 
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -29,9 +30,10 @@ const validationSchema = yup.object({
     .email("Enter a valid email"),
 });
 
-export default function SignupForm({ signup }) {
+export default function SignupForm() {
   const [formErrors, setFormErrors] = useState([]);
   const navigate = useNavigate();
+  const { signup } = useUserContext();
   console.debug("SignupForm", "signup=", typeof signup, { formErrors });
 
   const formik = useFormik({
