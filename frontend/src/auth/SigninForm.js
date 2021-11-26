@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Container from "@mui/material/Container";
+import { useUserContext } from "./UserContext";
 
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -22,9 +23,10 @@ const validationSchema = yup.object({
   password: yup.string().required("Password is required").min(6),
 });
 
-export default function SigninForm({ signin }) {
+export default function SigninForm() {
   const [formErrors, setFormErrors] = useState([]);
   const navigate = useNavigate();
+  const { signin } = useUserContext();
 
   const formik = useFormik({
     initialValues: {
