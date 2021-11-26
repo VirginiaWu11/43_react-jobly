@@ -9,12 +9,12 @@ import ProfileForm from "../ProfileForm";
 import CompanyDetail from "../companies/CompanyDetail";
 import PrivateRoute from "./PrivateRoute";
 
-const AllRoutes = ({ signup, signin }) => {
+const AllRoutes = () => {
   return (
     <Routes>
       <Route exact path="/" element={<Home />} />
-      <Route exact path="/signin" element={<SigninForm signin={signin} />} />
-      <Route exact path="/signup" element={<SignupForm signup={signup} />} />
+      <Route exact path="/signin" element={<SigninForm />} />
+      <Route exact path="/signup" element={<SignupForm />} />
       <Route
         exact
         path="/profile"
